@@ -32,7 +32,7 @@ var AxisContainer = React.createClass({
         var yStart = 0;
         var tickMarkPositions = calculateTickMarkPositionsForGivenRange(tickSpacing, row);
         var tickMarkSVG = [];
-        tickMarkPositions.forEach(function(tickMarkPosition) {
+        tickMarkPositions.forEach(function(tickMarkPosition, index) {
             var xCenter = getXCenterOfRowAnnotation({
                 start: tickMarkPosition,
                 end: tickMarkPosition
@@ -40,12 +40,12 @@ var AxisContainer = React.createClass({
             var yStart = 0;
             var yEnd = annotationHeight / 3;
             tickMarkSVG.push(<path
-              key={'axisTickMark ' + row.rowNumber + ' ' + tickMarkPosition}
+              key={'axisTickMark ' + index + ' ' + tickMarkPosition}
               d={"M" + xCenter + "," + yStart + " L" + xCenter + "," + yEnd}
               stroke={'black'} />);
             tickMarkSVG.push(
                 <text
-                          key={'axisTickMarkText ' + row.rowNumber + ' ' + tickMarkPosition}
+                          key={'axisTickMarkText ' + index + ' ' + tickMarkPosition}
                           stroke={'black'}
                           x={xCenter}
                           y={annotationHeight}
@@ -56,10 +56,9 @@ var AxisContainer = React.createClass({
         });
 
         return (
-            <svg className="tickMarkContainer" width="100%" height={annotationHeight*1.2} >
+            <svg ref="tickMarkContainer" className="tickMarkContainer" width="100%" height={annotationHeight*1.2} >
                 {tickMarkSVG}
                 <path
-                key={'axis ' + row.rowNumber}
                 d={"M" + xStart + "," + yStart + " L" + xEnd + "," + yStart}
                 stroke={'black'} />
             </svg>

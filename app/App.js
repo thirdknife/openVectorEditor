@@ -28,9 +28,11 @@ var App = React.createClass({
 
   render: function () {
     return (
+      <div>
         <SequenceEditor/>
+      </div>
     );
   }
 });
 
-React.render(<App tree={baobabTree}/>, document.getElementById('mount-point'));
+React.render(<App tree={baobabTree}/>, document.body);
