@@ -4,8 +4,9 @@ var chai = require("chai");
 var should = chai.should();
 var cutSequenceByRestrictionEnzyme = require('./cutSequenceByRestrictionEnzyme.js');
 var enzymeList = require('./enzymeList.js');
+var test = require('tape');
 // var collapseOverlapsGeneratedFromRangeComparisonIfPossible = require('./collapseOverlapsGeneratedFromRangeComparisonIfPossible.js');
-describe('a simple, palindromic enzyme', function() {
+test('a simple, palindromic enzyme', function(t) {
     //bamhi
     // "bamhi": {
     //     "name": "bamhi",
@@ -18,7 +19,7 @@ describe('a simple, palindromic enzyme', function() {
     //     "usForward": 0,
     //     "usReverse": 0
     // },
-    it('cuts a single non-circular cutsite', function() {
+    t.test('cuts a single non-circular cutsite', function(t) {
         var cutsites = cutSequenceByRestrictionEnzyme('ggatcc', true, enzymeList['bamhi']);
         cutsites.should.be.an.array;
         cutsites.length.should.equal(1);
@@ -30,8 +31,9 @@ describe('a simple, palindromic enzyme', function() {
         cutsites[0].downstreamBottomSnip.should.equal(5);
         should.not.exist(cutsites[0].upstreamTopSnip);
         should.not.exist(cutsites[0].upstreamBottomSnip);
+        t.end();
     });
-    it('cuts a single circular cutsite', function() {
+    t.test('cuts a single circular cutsite', function(t) {
         var cutsites = cutSequenceByRestrictionEnzyme('ccrrrrggat', true, enzymeList['bamhi']);
         cutsites.should.be.an.array;
         cutsites.length.should.equal(1);
@@ -43,13 +45,15 @@ describe('a simple, palindromic enzyme', function() {
         cutsites[0].downstreamBottomSnip.should.equal(1);
         should.not.exist(cutsites[0].upstreamTopSnip);
         should.not.exist(cutsites[0].upstreamBottomSnip);
+        t.end();
     });
-    it('does not cut a circular cutsite if sequence is non-circular', function() {
+    t.test('does not cut a circular cutsite if sequence is non-circular', function(t) {
         var cutsites = cutSequenceByRestrictionEnzyme('ccrrrrggat', false, enzymeList['bamhi']);
         cutsites.should.be.an.array;
         cutsites.length.should.equal(0);
+        t.end();
     });
-    it('cuts multiple times', function() {
+    t.test('cuts multiple times', function(t) {
         //bamhi
         // "bamhi": {
         //     "name": "bamhi",
@@ -81,9 +85,10 @@ describe('a simple, palindromic enzyme', function() {
         cutsites[1].downstreamBottomSnip.should.equal(15);
         should.not.exist(cutsites[1].upstreamTopSnip);
         should.not.exist(cutsites[1].upstreamBottomSnip);
+        t.end();
     });
 });
-describe('non-palindromic enzyme', function() {
+test('non-palindromic enzyme', function(t) {
     // "bsmbi": {
     //     "name": "BsmBI",
     //     "site": "cgtctc",
@@ -96,12 +101,13 @@ describe('non-palindromic enzyme', function() {
     //     "usReverse": 0
     // },
     // 
-    it('does not cut if the enzyme cuts outside of a linear sequence', function() {
+    t.test('does not cut if the enzyme cuts outside of a linear sequence', function(t) {
         var cutsites = cutSequenceByRestrictionEnzyme('cgtctc', false, enzymeList['bsmbi']);
         cutsites.should.be.an.array;
         cutsites.length.should.equal(0);
+        t.end();
     });
-    it('does cut if the enzyme fits within circular sequence', function() {
+    t.test('does cut if the enzyme fits within circular sequence', function(t) {
         var cutsites = cutSequenceByRestrictionEnzyme('cgtctc', true, enzymeList['bsmbi']);
         cutsites.should.be.an.array;
         cutsites.length.should.equal(1);
@@ -112,8 +118,9 @@ describe('non-palindromic enzyme', function() {
         cutsites[0].downstreamTopSnip.should.equal(1);
         cutsites[0].downstreamBottomSnip.should.equal(5);
         should.not.exist(cutsites[0].upstreamTopSnip);
+        t.end();
     });
-    it('does cut if the sequence is long enough', function() {
+    t.test('does cut if the sequence is long enough', function(t) {
         // 0123456 7890 12345678
         // cgtctct tttt tttttttttttttttttt
         // rrrrrr
@@ -130,8 +137,9 @@ describe('non-palindromic enzyme', function() {
         cutsites[0].downstreamBottomSnip.should.equal(11);
         should.not.exist(cutsites[0].upstreamTopSnip);
         should.not.exist(cutsites[0].upstreamBottomSnip);
+        t.end();
     });
-    it('cuts on reverse strand', function() {
+    t.test('cuts on reverse strand', function(t) {
         // 0123456 7890 12345678
         // cgtctct tttt tttttttttttttttttt
         // rrrrrr
@@ -148,9 +156,10 @@ describe('non-palindromic enzyme', function() {
         cutsites[0].downstreamBottomSnip.should.equal(22);
         should.not.exist(cutsites[0].upstreamTopSnip);
         should.not.exist(cutsites[0].upstreamBottomSnip);
+        t.end();
     });
 });
-describe('palindromic enzyme that cuts both upstream and downstream', function() {
+test('palindromic enzyme that cuts both upstream and downstream', function(t) {
     // "nmedi": {
     //     "name": "NmeDI",
     //     "site": "rccggy",
@@ -162,12 +171,13 @@ describe('palindromic enzyme that cuts both upstream and downstream', function()
     //     "usForward": 13,
     //     "usReverse": 18
     // },
-    it('does not cut if the enzyme cuts outside of a linear sequence', function() {
+    t.test('does not cut if the enzyme cuts outside of a linear sequence', function(t) {
         var cutsites = cutSequenceByRestrictionEnzyme('rccggy', false, enzymeList['nmedi']);
         cutsites.should.be.an.array;
         cutsites.length.should.equal(0);
+        t.end();
     });
-    it('does cut twice if the enzyme fits within linear sequence', function() {
+    t.test('does cut twice if the enzyme fits within linear sequence', function(t) {
         // ttttttttttttttttttttrccggyttttttttttttttttttttt
         // 01234567890123456789012345678901234567890123456
         var cutsites = cutSequenceByRestrictionEnzyme('ttttttttttttttttttttrccggyttttttttttttttttttttt', false, enzymeList['nmedi']);
@@ -181,8 +191,9 @@ describe('palindromic enzyme that cuts both upstream and downstream', function()
         cutsites[0].downstreamBottomSnip.should.equal(38);
         cutsites[0].upstreamTopSnip.should.equal(12);
         cutsites[0].upstreamBottomSnip.should.equal(7);
+        t.end();
     });
-    it('cuts only once if only the upstream cutting end fits within linear sequence', function() {
+    t.test('cuts only once if only the upstream cutting end fits within linear sequence', function(t) {
         // ttttttttttttttttttttrccggyttttttttttttttttttttt
         // 01234567890123456789012345678901234567890123456
         var cutsites = cutSequenceByRestrictionEnzyme('ttttttttttttttttttttrccggy', false, enzymeList['nmedi']);
@@ -196,8 +207,9 @@ describe('palindromic enzyme that cuts both upstream and downstream', function()
         should.not.exist(cutsites[0].downstreamBottomSnip);
         cutsites[0].upstreamTopSnip.should.equal(12);
         cutsites[0].upstreamBottomSnip.should.equal(7);
+        t.end();
     });
-    it('cuts only once if only the downstream cutting end fits within linear sequence', function() {
+    t.test('cuts only once if only the downstream cutting end fits within linear sequence', function(t) {
         // ttttttttttttttttttttrccggyttttttttttttttttttttt
         // 01234567890123456789012345678901234567890123456
         var cutsites = cutSequenceByRestrictionEnzyme('rccggyttttttttttttttttttttt', false, enzymeList['nmedi']);
@@ -211,5 +223,6 @@ describe('palindromic enzyme that cuts both upstream and downstream', function()
         cutsites[0].downstreamBottomSnip.should.equal(18);
         should.not.exist(cutsites[0].upstreamTopSnip);
         should.not.exist(cutsites[0].upstreamBottomSnip);
+        t.end();
     });
 });

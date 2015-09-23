@@ -1,6 +1,4 @@
-//tnr: half finished test. 
-// var tap = require('tap');
-// tap.mochaGlobals();
+var test = require('tape');
 var setCaretPosition = require('../../app/actions/setCaretPosition');
 var deleteSequence = require('../../app/actions/deleteSequence');
 var addAnnotations = require('../../app/actions/addAnnotations');
@@ -13,8 +11,7 @@ chai.use(chaiSubset);
 
 chai.use(require('chai-things'));
 var seedTreeWithSimpleSequenceData = require('../testHelpers/seedTreeWithSimpleSequenceData.js');
-describe('deleteSequence', function() {
-    it('deletes entire sequence and annotations correctly', function() {
+    test('deletes entire sequence and annotations correctly', function(t) {
         seedTreeWithSimpleSequenceData({
             sequence: 'atgc'
         });
@@ -45,8 +42,9 @@ describe('deleteSequence', function() {
         sequenceLengthPostInsert.should.equal(0);
         tree.get('sequenceData', 'features').should.deep.equal([])
         tree.get('sequenceData', 'parts').should.deep.equal([])
+        t.end();
     });
-    it('adjusts entire sequence and annotations correctly', function() {
+    test('adjusts entire sequence and annotations correctly', function(t) {
         seedTreeWithSimpleSequenceData({
             sequence: 'atgc'
         });
@@ -86,5 +84,5 @@ describe('deleteSequence', function() {
             start: 0,
             end: 1
         }])
+        t.end();
     });
-});

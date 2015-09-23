@@ -1,11 +1,8 @@
-//var tap = require('tap');
-//tap.mochaGlobals();
-
+var test = require('tape');
 var trimRangeByAnotherRange = require('./trimRangeByAnotherRange.js');
 // var trimRangeByAnotherRange = require('./trimRangeByAnotherRange.js');
 var assert = require('assert');
-describe('trimRangeByAnotherRange', function() {
-	it('trims non circular ranges that dont fully overlap', function() {
+	test('trims non circular ranges that dont fully overlap', function(t) {
 		assert.deepEqual(trimRangeByAnotherRange({
 			start: 0,
 			end: 2
@@ -16,8 +13,9 @@ describe('trimRangeByAnotherRange', function() {
 			start: 0,
 			end: 1
 		});
+		t.end();
 	});
-	it('it does not trim non circular ranges with overlap contained within it', function() {
+	test('it does not trim non circular ranges with overlap contained within it', function(t) {
 		assert.deepEqual(trimRangeByAnotherRange({
 			start: 0,
 			end: 10
@@ -28,8 +26,9 @@ describe('trimRangeByAnotherRange', function() {
 			start: 0,
 			end: 10
 		});
+		t.end();
 	});
-	it('trims non circular ranges that fully overlap', function() {
+	test('trims non circular ranges that fully overlap', function(t) {
 		assert.deepEqual(trimRangeByAnotherRange({
 			start: 0,
 			end: 2
@@ -58,8 +57,9 @@ describe('trimRangeByAnotherRange', function() {
 			start: 0,
 			end: 3
 		}, 10), undefined);
+		t.end();
 	});
-	it('does not trim non circular ranges that dont overlap', function() {
+	test('does not trim non circular ranges that dont overlap', function(t) {
 		assert.deepEqual(trimRangeByAnotherRange({
 			start: 0,
 			end: 2
@@ -80,8 +80,9 @@ describe('trimRangeByAnotherRange', function() {
 			start: 3,
 			end: 5
 		});
+		t.end();
 	});
-	it('does trim circular ranges that overlap', function() {
+	test('does trim circular ranges that overlap', function(t) {
 		assert.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 2
@@ -169,6 +170,6 @@ describe('trimRangeByAnotherRange', function() {
 			start: 3,
 			end: 2
 		}, 10), undefined);
+		t.end();
 	});
 	
-});
