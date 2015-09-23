@@ -57,7 +57,7 @@ test('moves existing annotations correctly', function(t) {
     sequenceLengthPostInsert.should.equal(sequenceLengthPreInsert + sequenceToInsert.sequence.length);
     tree.get('sequenceData', 'features').should.containSubset([{
         start: 10,
-        end: 14
+        end: 13
     }, {
         start: 13,
         end: 11

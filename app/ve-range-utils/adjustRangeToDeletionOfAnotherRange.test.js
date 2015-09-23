@@ -1,31 +1,28 @@
-//var tap = require('tap');
-//tap.mochaGlobals();
 var adjustRangeToDeletionOfAnotherRange = require('./adjustRangeToDeletionOfAnotherRange.js');
 // var collapseOverlapsGeneratedFromRangeComparisonIfPossible = require('./collapseOverlapsGeneratedFromRangeComparisonIfPossible.js');
-var assert = require('assert');
 var test = require('tape');
 test('deletes non circular range if fully overlapped', function(t) {
-    assert.deepEqual(adjustRangeToDeletionOfAnotherRange({
+    t.notOk(adjustRangeToDeletionOfAnotherRange({
         start: 10,
         end: 20
     }, {
         start: 10,
         end: 20
-    }, 30), null);
+    }, 30));
     t.end();
 });
 test('deletes circular range if fully overlapped', function(t) {
-    assert.deepEqual(adjustRangeToDeletionOfAnotherRange({
+    t.notOk(adjustRangeToDeletionOfAnotherRange({
         start: 20,
         end: 10
     }, {
         start: 20,
         end: 10
-    }, 30), null);
+    }, 30));
     t.end();
 });
 test('shifts start and end if deleting before non circular range', function(t) {
-    assert.deepEqual(adjustRangeToDeletionOfAnotherRange({
+    t.deepEqual(adjustRangeToDeletionOfAnotherRange({
         start: 10,
         end: 20
     }, {
@@ -38,7 +35,7 @@ test('shifts start and end if deleting before non circular range', function(t) {
     t.end();
 });
 test('shifts start if deleting in middle of non circular range', function(t) {
-    assert.deepEqual(adjustRangeToDeletionOfAnotherRange({
+    t.deepEqual(adjustRangeToDeletionOfAnotherRange({
         start: 20,
         end: 10
     }, {
@@ -48,7 +45,7 @@ test('shifts start if deleting in middle of non circular range', function(t) {
         start: 15,
         end: 10
     });
-    assert.deepEqual(adjustRangeToDeletionOfAnotherRange({
+    t.deepEqual(adjustRangeToDeletionOfAnotherRange({
         start: 20,
         end: 10
     }, {
@@ -61,7 +58,7 @@ test('shifts start if deleting in middle of non circular range', function(t) {
     t.end();
 });
 test('shifts start and end if deleting before end of non circular range', function(t) {
-    assert.deepEqual(adjustRangeToDeletionOfAnotherRange({
+    t.deepEqual(adjustRangeToDeletionOfAnotherRange({
         start: 20,
         end: 10
     }, {
@@ -71,7 +68,7 @@ test('shifts start and end if deleting before end of non circular range', functi
         start: 19,
         end: 9
     });
-    assert.deepEqual(adjustRangeToDeletionOfAnotherRange({
+    t.deepEqual(adjustRangeToDeletionOfAnotherRange({
         start: 20,
         end: 10
     }, {
@@ -84,7 +81,7 @@ test('shifts start and end if deleting before end of non circular range', functi
     t.end();
 });
 test('shifts neither start nor end if deleting after start of non circular range', function(t) {
-    assert.deepEqual(adjustRangeToDeletionOfAnotherRange({
+    t.deepEqual(adjustRangeToDeletionOfAnotherRange({
         start: 20,
         end: 10
     }, {
@@ -94,7 +91,7 @@ test('shifts neither start nor end if deleting after start of non circular range
         start: 20,
         end: 10
     });
-    assert.deepEqual(adjustRangeToDeletionOfAnotherRange({
+    t.deepEqual(adjustRangeToDeletionOfAnotherRange({
         start: 20,
         end: 10
     }, {

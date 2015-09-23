@@ -1,5 +1,3 @@
-//var tap = require('tap');
-//tap.mochaGlobals();
 var getAminoAcidDataForEachBaseOfDna = require('./getAminoAcidDataForEachBaseOfDna.js');
 var getAA = require('./getAminoAcidFromSequenceTriplet');
 // var collapseOverlapsGeneratedFromRangeComparisonIfPossible = require('./collapseOverlapsGeneratedFromRangeComparisonIfPossible.js');
@@ -9,7 +7,7 @@ var test = require('tape');
 //: It gets correct amino acid mapping and position in codon for each basepair in sequence
 test('1 amino acid long sequence', function(t) {
     aaData = getAminoAcidDataForEachBaseOfDna('atg', true);
-    assert.deepEqual(aaData, [{
+    t.deepEqual(aaData, [{
         aminoAcid: getAA('atg'),
         positionInCodon: 0,
         aminoAcidIndex: 0,
@@ -29,7 +27,7 @@ test('1 amino acid long sequence', function(t) {
 });
 test('1 amino acid long sequence in reverse direction', function(t) {
     aaData = getAminoAcidDataForEachBaseOfDna('atg', false);
-    assert.deepEqual(aaData, [{
+    t.deepEqual(aaData, [{
         aminoAcid: getAA('cat'),
         positionInCodon: 2,
         aminoAcidIndex: 0,
@@ -49,7 +47,7 @@ test('1 amino acid long sequence in reverse direction', function(t) {
 });
 test('> 1 amino acid long sequence', function(t) {
     aaData = getAminoAcidDataForEachBaseOfDna('atgtaat', true);
-    assert.deepEqual(aaData, [{
+    t.deepEqual(aaData, [{
         aminoAcid: getAA('atg'),
         positionInCodon: 0,
         aminoAcidIndex: 0,
@@ -90,7 +88,7 @@ test('> 1 amino acid long sequence', function(t) {
 test('> 1 amino acid long sequence in reverse direction', function(t) {
     aaData = getAminoAcidDataForEachBaseOfDna('atgtaat', false);
 
-    assert.deepEqual(aaData, [{
+    t.deepEqual(aaData, [{
         aminoAcid: getAA('xxx'),
         positionInCodon: 0,
         aminoAcidIndex: 2,
@@ -130,7 +128,7 @@ test('> 1 amino acid long sequence in reverse direction', function(t) {
 });
 test('< 1 amino acid long sequence', function(t) {
     aaData = getAminoAcidDataForEachBaseOfDna('at', true);
-    assert.deepEqual(aaData, [{
+    t.deepEqual(aaData, [{
         aminoAcid: getAA('xxx'),
         positionInCodon: 0,
         aminoAcidIndex: 0,
@@ -145,7 +143,7 @@ test('< 1 amino acid long sequence', function(t) {
 });
 test('< 1 amino acid long sequence in reverse direction', function(t) {
     aaData = getAminoAcidDataForEachBaseOfDna('at', false);
-    assert.deepEqual(aaData, [{
+    t.deepEqual(aaData, [{
         aminoAcid: getAA('xxx'),
         positionInCodon: 1,
         aminoAcidIndex: 0,

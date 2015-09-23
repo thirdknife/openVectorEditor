@@ -3,7 +3,7 @@ var getOverlapsOfPotentiallyCircularRanges = require('./getOverlapsOfPotentially
 // var collapseOverlapsGeneratedFromRangeComparisonIfPossible = require('./collapseOverlapsGeneratedFromRangeComparisonIfPossible.js');
 var assert = require('assert');
 test('doesnt return an overlap for non overlapping ranges', function(t) {
-    assert.deepEqual(getOverlapsOfPotentiallyCircularRanges({
+    t.deepEqual(getOverlapsOfPotentiallyCircularRanges({
         start: 0,
         end: 100
     }, {
@@ -13,7 +13,7 @@ test('doesnt return an overlap for non overlapping ranges', function(t) {
     t.end();
 });
 test('does return overlaps for overlapping ranges', function(t) {
-    assert.deepEqual(getOverlapsOfPotentiallyCircularRanges({
+    t.deepEqual(getOverlapsOfPotentiallyCircularRanges({
         start: 0,
         end: 100
     }, {
@@ -24,7 +24,7 @@ test('does return overlaps for overlapping ranges', function(t) {
         end: 100
     }]);
 
-    assert.deepEqual(getOverlapsOfPotentiallyCircularRanges({
+    t.deepEqual(getOverlapsOfPotentiallyCircularRanges({
         start: 12,
         end: 9
     }, {
@@ -37,7 +37,7 @@ test('does return overlaps for overlapping ranges', function(t) {
         start: 12,
         end: 24
     }]);
-    assert.deepEqual(getOverlapsOfPotentiallyCircularRanges({
+    t.deepEqual(getOverlapsOfPotentiallyCircularRanges({
         start: 900,
         end: 100
     }, {
@@ -47,7 +47,7 @@ test('does return overlaps for overlapping ranges', function(t) {
         start: 90,
         end: 100
     }]);
-    assert.deepEqual(getOverlapsOfPotentiallyCircularRanges({
+    t.deepEqual(getOverlapsOfPotentiallyCircularRanges({
         start: 900,
         end: 100
     }, {
@@ -60,7 +60,7 @@ test('does return overlaps for overlapping ranges', function(t) {
         start: 900,
         end: 999
     }]);
-    assert.deepEqual(getOverlapsOfPotentiallyCircularRanges({
+    t.deepEqual(getOverlapsOfPotentiallyCircularRanges({
         start: 900,
         end: 100
     }, {
@@ -73,7 +73,7 @@ test('does return overlaps for overlapping ranges', function(t) {
         start: 900,
         end: 910
     }]);
-    assert.deepEqual(getOverlapsOfPotentiallyCircularRanges({
+    t.deepEqual(getOverlapsOfPotentiallyCircularRanges({
         start: 900,
         end: 100
     }, {

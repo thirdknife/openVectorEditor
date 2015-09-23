@@ -4,8 +4,8 @@ var getOverlapsOfPotentiallyCircularRanges = require('./getOverlapsOfPotentially
 var collapseOverlapsGeneratedFromRangeComparisonIfPossible = require('./collapseOverlapsGeneratedFromRangeComparisonIfPossible.js');
 var assert = require('assert');
 	test('returns an empty array if passed an empty array of overlaps', function(t) {
-		assert.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible([], 1000), []);
-		assert.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible(getOverlapsOfPotentiallyCircularRanges({
+		t.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible([], 1000), []);
+		t.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible(getOverlapsOfPotentiallyCircularRanges({
 			start: 900,
 			end: 100
 		}, {
@@ -18,7 +18,7 @@ var assert = require('assert');
 		t.end();
 	});
 	test('collapses a split circular range', function(t) {
-		assert.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible([{
+		t.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible([{
 			start: 0,
 			end: 100
 		}, {
@@ -28,7 +28,7 @@ var assert = require('assert');
 			start: 105,
 			end: 100
 		}]);
-		assert.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible(getOverlapsOfPotentiallyCircularRanges({
+		t.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible(getOverlapsOfPotentiallyCircularRanges({
 			start: 900,
 			end: 100
 		}, {
@@ -41,7 +41,7 @@ var assert = require('assert');
 		t.end();
 	});
 	test('doesnt collapses a split range that doesnt line up correctly', function(t) {
-		assert.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible([{
+		t.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible([{
 			start: 0,
 			end: 100
 		}, {
@@ -57,7 +57,7 @@ var assert = require('assert');
 		t.end();
 	});
 	test('collapses a split circular range with a third part', function(t) {
-		assert.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible([{
+		t.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible([{
 			start: 200,
 			end: 300
 		},{
@@ -77,7 +77,7 @@ var assert = require('assert');
 	});
 
 	test('collapses a split circular range with a third part in a different order', function(t) {
-		assert.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible([{
+		t.deepEqual(collapseOverlapsGeneratedFromRangeComparisonIfPossible([{
 			start: 0,
 			end: 100
 		},{

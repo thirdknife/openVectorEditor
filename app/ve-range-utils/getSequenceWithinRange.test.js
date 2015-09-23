@@ -9,17 +9,17 @@ test('works with an array (translation amino acids for example) as well', functi
         start: 0,
         end: 0
     }, ['a', 't', 'g', 'c']);
-    assert.deepEqual(subseq, ['a']);
+    t.deepEqual(subseq, ['a']);
     subseq = getSequenceWithinRange({
         start: 1,
         end: 1
     }, ['a', 't', 'g', 'c']);
-    assert.deepEqual(subseq, ['t']);
+    t.deepEqual(subseq, ['t']);
     subseq = getSequenceWithinRange({
         start: 1,
         end: 0
     }, ['a', 't', 'g', 'c']);
-    assert.deepEqual(subseq, ['t', 'g', 'c', 'a']);
+    t.deepEqual(subseq, ['t', 'g', 'c', 'a']);
     t.end();
 });
 test('gets a non circular range', function(t) {
@@ -27,17 +27,17 @@ test('gets a non circular range', function(t) {
         start: 0,
         end: 0
     }, 'atgc');
-    assert.equal(subseq, 'a');
+    t.equal(subseq, 'a');
     subseq = getSequenceWithinRange({
         start: 1,
         end: 1
     }, 'atgc');
-    assert.equal(subseq, 't');
+    t.equal(subseq, 't');
     subseq = getSequenceWithinRange({
         start: 0,
         end: 3
     }, 'atgc');
-    assert.equal(subseq, 'atgc');
+    t.equal(subseq, 'atgc');
     t.end();
 });
 test('gets a circular range', function(t) {
@@ -45,17 +45,17 @@ test('gets a circular range', function(t) {
         start: 1,
         end: 0
     }, 'atgc');
-    assert.deepEqual(subseq, 'tgca');
+    t.deepEqual(subseq, 'tgca');
     subseq = getSequenceWithinRange({
         start: 2,
         end: 1
     }, 'atgc');
-    assert.deepEqual(subseq, 'gcat');
+    t.deepEqual(subseq, 'gcat');
     subseq = getSequenceWithinRange({
         start: 3,
         end: 0
     }, 'atgc');
-    assert.deepEqual(subseq, 'ca');
+    t.deepEqual(subseq, 'ca');
     t.end();
 });
 test('gets a circular range', function(t) {
@@ -63,16 +63,16 @@ test('gets a circular range', function(t) {
         start: 1,
         end: 0
     }, 'atgc');
-    assert.deepEqual(subseq, 'tgca');
+    t.deepEqual(subseq, 'tgca');
     subseq = getSequenceWithinRange({
         start: 2,
         end: 1
     }, 'atgc');
-    assert.deepEqual(subseq, 'gcat');
+    t.deepEqual(subseq, 'gcat');
     subseq = getSequenceWithinRange({
         start: 3,
         end: 0
     }, 'atgc');
-    assert.deepEqual(subseq, 'ca');
+    t.deepEqual(subseq, 'ca');
     t.end();
 });

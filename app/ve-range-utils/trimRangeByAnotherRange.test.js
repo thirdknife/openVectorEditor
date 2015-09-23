@@ -3,7 +3,7 @@ var trimRangeByAnotherRange = require('./trimRangeByAnotherRange.js');
 // var trimRangeByAnotherRange = require('./trimRangeByAnotherRange.js');
 var assert = require('assert');
 	test('trims non circular ranges that dont fully overlap', function(t) {
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 0,
 			end: 2
 		}, {
@@ -16,7 +16,7 @@ var assert = require('assert');
 		t.end();
 	});
 	test('it does not trim non circular ranges with overlap contained within it', function(t) {
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 0,
 			end: 10
 		}, {
@@ -29,28 +29,28 @@ var assert = require('assert');
 		t.end();
 	});
 	test('trims non circular ranges that fully overlap', function(t) {
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 0,
 			end: 2
 		}, {
 			start: 0,
 			end: 2
 		}, 10), undefined);
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 5
 		}, {
 			start: 3,
 			end: 5
 		}, 10), undefined);
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 3
 		}, {
 			start: 3,
 			end: 3
 		}, 10), undefined);
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 0,
 			end: 0
 		}, {
@@ -60,7 +60,7 @@ var assert = require('assert');
 		t.end();
 	});
 	test('does not trim non circular ranges that dont overlap', function(t) {
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 0,
 			end: 2
 		}, {
@@ -70,7 +70,7 @@ var assert = require('assert');
 			start: 0,
 			end: 2
 		});
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 5
 		}, {
@@ -83,7 +83,7 @@ var assert = require('assert');
 		t.end();
 	});
 	test('does trim circular ranges that overlap', function(t) {
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 2
 		}, {
@@ -93,7 +93,7 @@ var assert = require('assert');
 			start: 3,
 			end: 2
 		});
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 2
 		}, {
@@ -103,7 +103,7 @@ var assert = require('assert');
 			start: 7,
 			end: 2
 		});
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 2
 		}, {
@@ -113,7 +113,7 @@ var assert = require('assert');
 			start: 7,
 			end: 0
 		});
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 2
 		}, {
@@ -123,7 +123,7 @@ var assert = require('assert');
 			start: 7,
 			end: 9
 		});
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 2
 		}, {
@@ -133,7 +133,7 @@ var assert = require('assert');
 			start: 0,
 			end: 1
 		});
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 2
 		}, {
@@ -143,7 +143,7 @@ var assert = require('assert');
 			start: 3,
 			end: 3
 		});
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 1,
 			end: 2
 		}, {
@@ -153,7 +153,7 @@ var assert = require('assert');
 			start: 2,
 			end: 2
 		});
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 1,
 			end: 5
 		}, {
@@ -163,7 +163,7 @@ var assert = require('assert');
 			start: 2,
 			end: 3
 		});
-		assert.deepEqual(trimRangeByAnotherRange({
+		t.deepEqual(trimRangeByAnotherRange({
 			start: 3,
 			end: 2
 		}, {
