@@ -1,34 +1,34 @@
 import React, {PropTypes} from 'react';
+import {Decorator as Cerebral} from 'cerebral-react';
+
 var Draggable = require('react-draggable');
 var RowItem = require('./RowItem.js');
+var InfiniteScroller = require('react-variable-height-infinite-scroller');
 
+@Cerebral({
+    mapViewDimensions: ['mapViewDimensions'],
+    rowData: ['rowData'],
+    charWidth: ['charWidth'],
+    charHeight: ['charHeight'],
+    annotationHeight: ['annotationHeight'],
+    selectionLayer: ['selectionLayer'],
+    cutsiteLabelSelectionLayer: ['cutsiteLabelSelectionLayer'],
+    tickSpacing: ['tickSpacing'],
+    spaceBetweenAnnotations: ['spaceBetweenAnnotations'],
+    showFeatures: ['showFeatures'],
+    showTranslations: ['showTranslations'],
+    showParts: ['showParts'],
+    showOrfs: ['showOrfs'],
+    showAxis: ['showAxis'],
+    showCutsites: ['showCutsites'],
+    showReverseSequence: ['showReverseSequence'],
+    caretPosition: ['caretPosition'],
+    sequenceLength: ['sequenceLength'],
+    bpsPerRow: ['bpsPerRow']
+})
 
-var RowView = React.createClass({
-    propTypes: {
-        mapViewDimensions: PropTypes.object.isRequired,
-        rowData: PropTypes.array.isRequired,
-        charWidth: PropTypes.number.isRequired,
-        selectionLayer: PropTypes.object.isRequired,
-        charHeight: PropTypes.number.isRequired,
-        annotationHeight: PropTypes.number.isRequired,
-        tickSpacing: PropTypes.number.isRequired,
-        spaceBetweenAnnotations: PropTypes.number.isRequired,
-        showFeatures: PropTypes.bool.isRequired,
-        showTranslations: PropTypes.bool.isRequired,
-        showParts: PropTypes.bool.isRequired,
-        showOrfs: PropTypes.bool.isRequired,
-        showAxis: PropTypes.bool.isRequired,
-        showCutsites: PropTypes.bool.isRequired,
-        showReverseSequence: PropTypes.bool.isRequired,
-        caretPosition: PropTypes.number.isRequired,
-        sequenceLength: PropTypes.number.isRequired,
-        bpsPerRow: PropTypes.number.isRequired,
-        handleEditorDrag: PropTypes.func.isRequired,
-        handleEditorDragStart: PropTypes.func.isRequired,
-        handleEditorDragStop: PropTypes.func.isRequired,
-        handleEditorClick: PropTypes.func.isRequired,
-    },
-    getNearestCursorPositionToMouseEvent: function(event, callback) {
+class MapView extends React.Component {
+    getNearestCursorPositionToMouseEvent(event, callback) {
         callback(0);
         var rowNotFound = true;
         var rowDomNode = this.refs.mapView.getDOMNode();
@@ -62,11 +62,11 @@ var RowView = React.createClass({
             var lastOfRenderedRows = this.props.rowData[lastOfRenderedRowsNumber];
             callback(lastOfRenderedRows.end);
         }
-    },
+    }
 
     
 
-    render: function() {
+    render() {
         // console.log('render!');
         // 
         var {
@@ -154,8 +154,13 @@ var RowView = React.createClass({
             </Draggable>
         );
     }
-});
+}
 
+MapView.propTypes = {
+    handleEditorDrag: PropTypes.func.isRequired,
+    handleEditorDragStart: PropTypes.func.isRequired,
+    handleEditorDragStop: PropTypes.func.isRequired,
+    handleEditorClick: PropTypes.func.isRequired
+};
 
-
-module.exports = RowView;
+module.exports = MapView;

@@ -280,34 +280,16 @@ class SequenceEditor extends React.Component {
              <br/>
              <br/>
              <br/>
+        <MapView 
+          handleEditorDrag={this.handleEditorDrag.bind(this)}
+          handleEditorDragStart={this.handleEditorDragStart.bind(this)}
+          handleEditorDragStop={this.handleEditorDragStop.bind(this)}
+          handleEditorClick={this.handleEditorClick.bind(this)}
+           />             
         
       </div>
     );
   }
 }
-
-// SequenceEditor.propTypes = {
-//     sequenceLength: PropTypes.number.isRequired,
-//     bpsPerRow: PropTypes.number.isRequired,
-//     totalRows: PropTypes.number.isRequired,
-//     newRandomRowToJumpTo: PropTypes.object,
-//     selectedSequenceString: PropTypes.string.isRequired,
-//     caretPosition: PropTypes.number.isRequired,
-//     sequenceData: PropTypes.object.isRequired,
-//     selectionLayer: PropTypes.object.isRequired,
-//     clipboardData: PropTypes.object.isRequired,
-// }
-
-
-// <MapView 
-//           {...this.props}
-//           />
-
-
-// <button onClick={function () {
-//           jumpToRow(self.props.newRandomRowToJumpTo),
-//         }}>
-//           Jump to a random row: Row #{self.props.newRandomRowToJumpTo.row}
-//         </button>
 
 module.exports = SequenceEditor;
