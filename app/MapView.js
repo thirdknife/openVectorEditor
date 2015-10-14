@@ -2,32 +2,33 @@ import React, {PropTypes} from 'react';
 var Draggable = require('react-draggable');
 var RowItem = require('./RowItem.js');
 
+@Cerebral({
+    mapViewDimensions: ['mapViewDimensions'],
+    rowData: ['rowData'],
+    charWidth: ['charWidth'], //?
+    selectionLayer: ['selectionLayer'],
+    charHeight: ['charHeight'], //?
+    annotationHeight: ['annotationHeight'],
+    tickSpacing: ['tickSpacing'], //?
+    spaceBetweenAnnotations: ['spaceBetweenAnnotations'],
+    showFeatures: ['showFeatures'],
+    showTranslations: ['showTranslations'],
+    showParts: ['showParts'],
+    showOrfs: ['showOrfs'],
+    showAxis: ['showAxis'], //?
+    showCutsites: ['showCutsites'],
+    showReverseSequence: ['showReverseSequence'], //?
+    caretPosition: ['caretPosition'],
+    sequenceLength: ['sequenceLength'],
+    bpsPerRow: ['bpsPerRow'], //?
+    handleEditorDrag: ['handleEditorDrag'],
+    handleEditorDragStart: ['handleEditorDragStart'],
+    handleEditorDragStop: ['handleEditorDragStop'],
+    handleEditorClick: ['handleEditorClick']
+})
 
-var RowView = React.createClass({
-    propTypes: {
-        mapViewDimensions: PropTypes.object.isRequired,
-        rowData: PropTypes.array.isRequired,
-        charWidth: PropTypes.number.isRequired,
-        selectionLayer: PropTypes.object.isRequired,
-        charHeight: PropTypes.number.isRequired,
-        annotationHeight: PropTypes.number.isRequired,
-        tickSpacing: PropTypes.number.isRequired,
-        spaceBetweenAnnotations: PropTypes.number.isRequired,
-        showFeatures: PropTypes.bool.isRequired,
-        showTranslations: PropTypes.bool.isRequired,
-        showParts: PropTypes.bool.isRequired,
-        showOrfs: PropTypes.bool.isRequired,
-        showAxis: PropTypes.bool.isRequired,
-        showCutsites: PropTypes.bool.isRequired,
-        showReverseSequence: PropTypes.bool.isRequired,
-        caretPosition: PropTypes.number.isRequired,
-        sequenceLength: PropTypes.number.isRequired,
-        bpsPerRow: PropTypes.number.isRequired,
-        handleEditorDrag: PropTypes.func.isRequired,
-        handleEditorDragStart: PropTypes.func.isRequired,
-        handleEditorDragStop: PropTypes.func.isRequired,
-        handleEditorClick: PropTypes.func.isRequired,
-    },
+class MapView extends React.Component({
+
     getNearestCursorPositionToMouseEvent: function(event, callback) {
         callback(0);
         var rowNotFound = true;
