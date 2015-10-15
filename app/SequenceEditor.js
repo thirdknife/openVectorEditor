@@ -4,6 +4,8 @@ var Combokeys = require("combokeys");
 var combokeys;
 var bindGlobalPlugin = require('combokeys/plugins/global-bind');
 
+var MenuBar = require('./MenuBar');
+
 var RowView = require('./RowView');
 var MapView = require('./MapView');
 var BottomStatusBar = require('./BottomStatusBar');
@@ -249,6 +251,8 @@ class SequenceEditor extends React.Component {
 
     return (
       <div ref="sequenceEditor">
+
+        <MenuBar />
 
         {toggleButtons}
 
