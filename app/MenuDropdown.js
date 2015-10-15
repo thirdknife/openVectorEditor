@@ -9,6 +9,10 @@ class MenuDropdown extends React.Component {
         };
     }
 
+    handleClick() {
+        this.setState({ isOpen: !this.state.isOpen });
+    }
+
     render() {
         var {
             buttonText,
@@ -42,23 +46,23 @@ class MenuDropdown extends React.Component {
             }
         };
 
-        if (this.state.isOpen) {
-            return (
-                <div style={styles.menu}>
-                    <button style={styles.button}>{buttonText}</button>
+        var dropdown = null;
 
-                    <ul style={styles.dropdown}>
-                        {options.map((el) =>
-                        <li style={styles.menuItem}>{el}</li>
-                        )}
-                    </ul>
-                </div>
+        if (this.state.isOpen) {
+            dropdown = (
+                <ul style={styles.dropdown}>
+                    {options.map((el) =>
+                    <li style={styles.menuItem}>{el}</li>
+                    )}
+                </ul>
             );
         }
 
         return (
             <div style={styles.menu}>
-                <button style={styles.button}>{buttonText}</button>
+                <button style={styles.button} onClick={this.handleClick.bind(this)}>{buttonText}</button>
+
+                {dropdown}
             </div>
         );
     }
