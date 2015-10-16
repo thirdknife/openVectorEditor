@@ -139,7 +139,7 @@ class RowView extends React.Component {
                     signals={signals}
                     key={rowNumber}
                     row={rowData[rowNumber]} 
-                    />);
+                    />); //
             } else {
                 return null
             }
