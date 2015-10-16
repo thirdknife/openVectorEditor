@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {Decorator as Cerebral} from 'cerebral-react';
+import { propTypes } from './react-props-decorators.js'; //tnrtodo: update this once the actual npm module updates its dependencies
 
 var Draggable = require('react-draggable');
 var RowItem = require('./RowItem.js');
@@ -7,7 +8,7 @@ var RowItem = require('./RowItem.js');
 @Cerebral({
     mapViewDimensions: ['mapViewDimensions'],
     rowData: ['rowData'],
-    charWidth: ['charWidth'],
+    charWidth: ['mapViewCharWidth'],
     charHeight: ['charHeight'],
     annotationHeight: ['annotationHeight'],
     selectionLayer: ['selectionLayer'],
@@ -23,47 +24,63 @@ var RowItem = require('./RowItem.js');
     showReverseSequence: ['showReverseSequence'],
     caretPosition: ['caretPosition'],
     sequenceLength: ['sequenceLength'],
-    bpsPerRow: ['bpsPerRow']
 })
-
+@propTypes({
+    mapViewDimensions: PropTypes.object.isRequired,
+    rowData: PropTypes.array.isRequired,
+    charWidth: PropTypes.number.isRequired,
+    selectionLayer: PropTypes.object.isRequired,
+    cutsiteLabelSelectionLayer: PropTypes.object.isRequired,
+    annotationHeight: PropTypes.number.isRequired,
+    tickSpacing: PropTypes.number.isRequired,
+    spaceBetweenAnnotations: PropTypes.number.isRequired,
+    showFeatures: PropTypes.bool.isRequired,
+    showTranslations: PropTypes.bool.isRequired,
+    showParts: PropTypes.bool.isRequired,
+    showOrfs: PropTypes.bool.isRequired,
+    showAxis: PropTypes.bool.isRequired,
+    showCutsites: PropTypes.bool.isRequired,
+    showReverseSequence: PropTypes.bool.isRequired,
+    caretPosition: PropTypes.number.isRequired,
+    sequenceLength: PropTypes.number.isRequired,
+    handleEditorDrag: PropTypes.func.isRequired,
+    handleEditorDragStart: PropTypes.func.isRequired,
+    handleEditorDragStop: PropTypes.func.isRequired,
+    handleEditorClick: PropTypes.func.isRequired,
+})
 class MapView extends React.Component {
     getNearestCursorPositionToMouseEvent(event, callback) {
         var rowNotFound = true;
-        var visibleRowsContainer = this.refs.InfiniteScroller.getVisibleRowsContainerDomNode();
-        //loop through all the rendered rows to see if the click event lands in one of them
-        for (var relativeRowNumber = 0; relativeRowNumber < visibleRowsContainer.childNodes.length; relativeRowNumber++) {
-            var rowDomNode = visibleRowsContainer.childNodes[relativeRowNumber];
-            var boundingRowRect = rowDomNode.getBoundingClientRect();
-            // console.log('boundingRowRect.top', JSON.stringify(boundingRowRect.top,null,4));
-            // console.log('boundingRowRect.height', JSON.stringify(boundingRowRect.height,null,4));
-            if (event.clientY > boundingRowRect.top && event.clientY < boundingRowRect.top + boundingRowRect.height) {
-                //then the click is falls within this row
-                // console.log('HGGGG');
-                rowNotFound = false;
-                var rowNumber = this.refs.InfiniteScroller.state.visibleRows[relativeRowNumber];
-                var row = this.props.rowData[rowNumber];
-                if (event.clientX - boundingRowRect.left < 0) {
-                    console.warn('this should never be 0...');
-                    callback(row.start, event); //return the first bp in the row
-                } else {
-                    var clickXPositionRelativeToRowContainer = event.clientX - boundingRowRect.left;
-                    var numberOfBPsInFromRowStart = Math.floor((clickXPositionRelativeToRowContainer + this.props.charWidth / 2) / this.props.charWidth);
-                    var nearestBP = numberOfBPsInFromRowStart + row.start;
-                    if (nearestBP > row.end + 1) {
-                        nearestBP = row.end + 1;
-                    }
-                    // console.log('nearestBP', nearestBP);
-                    callback(nearestBP, event);
+        var rowDomNode = this.refs.mapView.getDOMNode();
+        var boundingRowRect = rowDomNode.getBoundingClientRect();
+        // console.log('boundingRowRect.top', JSON.stringify(boundingRowRect.top,null,4));
+        // console.log('boundingRowRect.height', JSON.stringify(boundingRowRect.height,null,4));
+        if (event.clientY > boundingRowRect.top && event.clientY < boundingRowRect.top + boundingRowRect.height) {
+            //then the click is falls within this row
+            // console.log('HGGGG');
+            rowNotFound = false;
+            if (event.clientX - boundingRowRect.left < 0) {
+                console.warn('this should never be 0...');
+                callback(0); //return the first bp in the row
+            } else {
+                var clickXPositionRelativeToRowContainer = event.clientX - boundingRowRect.left;
+                var numberOfBPsInFromRowStart = Math.floor((clickXPositionRelativeToRowContainer + this.props.charWidth / 2) / this.props.charWidth);
+                var nearestBP = numberOfBPsInFromRowStart;
+                if (nearestBP > this.props.sequenceLength + 1) {
+                    nearestBP = this.props.sequenceLength + 1;
                 }
-                break; //break the for loop early because we found the row the click event landed in
+                // console.log('nearestBP', nearestBP);
+                callback(nearestBP);
             }
+            // break; //break the for loop early because we found the row the click event landed in
         }
+        // }
         if (rowNotFound) {
             console.warn('was not able to find the correct row');
             //return the last bp index in the rendered rows
             var lastOfRenderedRowsNumber = this.refs.InfiniteScroller.state.visibleRows[this.refs.InfiniteScroller.state.visibleRows.length - 1];
             var lastOfRenderedRows = this.props.rowData[lastOfRenderedRowsNumber];
-            callback(lastOfRenderedRows.end, event);
+            callback(lastOfRenderedRows.end);
         }
     }
 
@@ -76,6 +93,7 @@ class MapView extends React.Component {
             charWidth, 
             selectionLayer, 
             charHeight,
+            cutsiteLabelSelectionLayer,
             annotationHeight,
             tickSpacing,
             spaceBetweenAnnotations,
@@ -87,9 +105,9 @@ class MapView extends React.Component {
             showCutsites,
             showReverseSequence,
             mouse,
+            signals,
             caretPosition,
             sequenceLength,
-            bpsPerRow,
             handleEditorDrag,
             handleEditorDragStart,
             handleEditorDragStop,
@@ -114,7 +132,6 @@ class MapView extends React.Component {
             //   padding: 10
         };
         // console.log('rowData: ' + JSON.stringify(rowData,null,4));
-        debugger
         return (
             <Draggable
                 bounds={{top: 0, left: 0, right: 0, bottom: 0}}
@@ -148,21 +165,16 @@ class MapView extends React.Component {
                         showCutsites={showCutsites}
                         showReverseSequence={showReverseSequence}
                         selectionLayer={selectionLayer}
+                        cutsiteLabelSelectionLayer={cutsiteLabelSelectionLayer}
+                        signals={signals}
                         caretPosition={caretPosition}
                         sequenceLength={sequenceLength}
-                        bpsPerRow={bpsPerRow}
+                        bpsPerRow={sequenceLength}
                         row={rowData[0]} />
                 </div>
             </Draggable>
         );
     }
 }
-
-MapView.propTypes = {
-    handleEditorDrag: PropTypes.func.isRequired,
-    handleEditorDragStart: PropTypes.func.isRequired,
-    handleEditorDragStop: PropTypes.func.isRequired,
-    handleEditorClick: PropTypes.func.isRequired
-};
 
 module.exports = MapView;
