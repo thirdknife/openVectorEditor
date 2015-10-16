@@ -3,16 +3,15 @@ import {Decorator as Cerebral} from 'cerebral-react';
 
 var Draggable = require('react-draggable');
 var RowItem = require('./RowItem.js');
-var InfiniteScroller = require('react-variable-height-infinite-scroller');
 
 @Cerebral({
     mapViewDimensions: ['mapViewDimensions'],
     rowData: ['rowData'],
     charWidth: ['charWidth'],
-    selectionLayer: ['selectionLayer'],
     charHeight: ['charHeight'],
-    cutsiteLabelSelectionLayer: ['cutsiteLabelSelectionLayer'],
     annotationHeight: ['annotationHeight'],
+    selectionLayer: ['selectionLayer'],
+    cutsiteLabelSelectionLayer: ['cutsiteLabelSelectionLayer'],
     tickSpacing: ['tickSpacing'],
     spaceBetweenAnnotations: ['spaceBetweenAnnotations'],
     showFeatures: ['showFeatures'],
@@ -115,34 +114,45 @@ class MapView extends React.Component {
             //   padding: 10
         };
         // console.log('rowData: ' + JSON.stringify(rowData,null,4));
+        debugger
         return (
             <Draggable
-            bounds={{top: 0, left: 0, right: 0, bottom: 0}}
-            onDrag={(event) => {
-                this.getNearestCursorPositionToMouseEvent(event, handleEditorDrag)}   
-            }
-            onStart={(event) => {
-                this.getNearestCursorPositionToMouseEvent(event, handleEditorDragStart)}   
-            }
-            onStop={handleEditorDragStop}
-            >
-              <div
-                ref="mapView"
-                className="mapView"
-                style={mapViewStyle}
-                onClick={(event) => {
-                    this.getNearestCursorPositionToMouseEvent(event, handleEditorClick)}   
+                bounds={{top: 0, left: 0, right: 0, bottom: 0}}
+                onDrag={(event) => {
+                    this.getNearestCursorPositionToMouseEvent(event, handleEditorDrag)}   
                 }
-                >
-                <InfiniteScroller
-                    ref={'InfiniteScroller'}
-                    averageElementHeight={100}
-                    containerHeight={rowViewDimensions.height}
-                    renderRow={renderRows}
-                    totalNumberOfRows={rowData.length}
-                    preloadRowStart={40}
-                    rowToJumpTo={rowToJumpTo}
-                    />
+                onStart={(event) => {
+                    this.getNearestCursorPositionToMouseEvent(event, handleEditorDragStart)}   
+                }
+                onStop={handleEditorDragStop}
+            >
+                <div
+                    ref="mapView"
+                    className="mapView"
+                    style={mapViewStyle}
+                    onClick={(event) => {
+                        this.getNearestCursorPositionToMouseEvent(event, handleEditorClick)}   
+                    }
+                    >
+                    <RowItem
+                        charWidth={charWidth}
+                        charHeight={charHeight}
+                        annotationHeight={annotationHeight}
+                        tickSpacing={tickSpacing}
+                        spaceBetweenAnnotations={spaceBetweenAnnotations}
+                        showFeatures={showFeatures}
+                        showTranslations={showTranslations}
+                        showParts={showParts}
+                        showOrfs={showOrfs}
+                        showAxis={showAxis}
+                        showCutsites={showCutsites}
+                        showReverseSequence={showReverseSequence}
+                        selectionLayer={selectionLayer}
+                        caretPosition={caretPosition}
+                        sequenceLength={sequenceLength}
+                        bpsPerRow={bpsPerRow}
+                        row={rowData[0]} />
+                </div>
             </Draggable>
         );
     }
