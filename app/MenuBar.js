@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 var MenuDropdown = require('./MenuDropdown');
 
 class MenuBar extends React.Component {
@@ -12,11 +13,25 @@ class MenuBar extends React.Component {
             }
         };
 
+        var fileMenuItems = [
+            {
+                label: 'Open',
+                callback: function () {
+                }
+            },
+
+            {
+                label: 'Save',
+                callback: function () {
+                }
+            }
+        ];
+
         return (
             <div style={styles.bar}>
                 <MenuDropdown
                     buttonText="File"
-                    options={['Open', 'Save']}
+                    options={fileMenuItems}
                 />
             </div>
         );

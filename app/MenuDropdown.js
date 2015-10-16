@@ -51,8 +51,8 @@ class MenuDropdown extends React.Component {
         if (this.state.isOpen) {
             dropdown = (
                 <ul style={styles.dropdown}>
-                    {options.map((el) =>
-                    <li style={styles.menuItem}>{el}</li>
+                    {options.map((el, i) =>
+                    <li key={i} style={styles.menuItem} onClick={el.callback}>{el.label}</li>
                     )}
                 </ul>
             );
