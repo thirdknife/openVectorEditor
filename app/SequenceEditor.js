@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import { propTypes } from './react-props-decorators.js'; //tnrtodo: update this once the actual npm module updates its dependencies
 var Combokeys = require("combokeys");
 var combokeys;
 var bindGlobalPlugin = require('combokeys/plugins/global-bind');
@@ -19,6 +20,17 @@ import {Decorator as Cerebral} from 'cerebral-react';
     sequenceData: ['sequenceData'],
     selectionLayer: ['selectionLayer'],
     clipboardData: ['clipboardData'],
+})
+@propTypes({
+    sequenceLength: PropTypes.number.isRequired,
+    bpsPerRow: PropTypes.number.isRequired,
+    totalRows: PropTypes.number.isRequired,
+    newRandomRowToJumpTo: PropTypes.object,
+    selectedSequenceString: PropTypes.string.isRequired,
+    caretPosition: PropTypes.number.isRequired,
+    sequenceData: PropTypes.object.isRequired,
+    selectionLayer: PropTypes.object.isRequired,
+    clipboardData: PropTypes.object.isRequired,
 })
 class SequenceEditor extends React.Component {
     componentDidMount() {
@@ -104,17 +116,17 @@ class SequenceEditor extends React.Component {
         combokeys.detach()
     }
 
-    handleEditorClick(newCaretPosition, event) {
+    handleEditorClick(updatedCaretPos, event) {
         //if cursor position is different than the original position, reset the position and clear the selection
         // console.log('onclick!!');
         // var bp = this.getNearestCursorPositionToMouseEvent(event);
         if (this.editorBeingDragged) {
             //do nothing because the click was triggered by a drag event
         } else {
-            this.props.signals.caretMoved({
+            this.props.signals.editorClicked({
                 shiftHeld: event.shiftKey,
                 type: 'editorClick',
-                newCaretPosition: newCaretPosition
+                updatedCaretPos: updatedCaretPos
             })
         }
 
@@ -163,7 +175,7 @@ class SequenceEditor extends React.Component {
         }
     }
 
-    handleEditorDragStart(caretPosition) {
+    handleEditorDragStart(caretPosition, event) {
       var {selectionLayer} = this.props;
         // var caretPosition = this.getNearestCursorPositionToMouseEvent(event);
         if (event.target.className === "cursor" && selectionLayer.selected) {

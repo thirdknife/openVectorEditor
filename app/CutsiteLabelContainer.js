@@ -1,6 +1,6 @@
 let React = require('react');
 let getXStartAndWidthOfRowAnnotation = require('./getXStartAndWidthOfRowAnnotation');
-let PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+let PureRenderMixin = require('react-addons-pure-render-mixin');
 var IntervalTree = require('interval-tree');
 var debug = require('debug')('cutsiteContainer');
 
@@ -15,6 +15,7 @@ let CutsiteLabelContainer = React.createClass({
         signals: React.PropTypes.object.isRequired,
     },
     render: function() {
+        return null; //tnr: commenting this out because interval tree is being buggy
         var {
             annotationRanges,
             bpsPerRow,
