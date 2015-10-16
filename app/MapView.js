@@ -7,8 +7,8 @@ var RowItem = require('./RowItem.js');
 
 @Cerebral({
     mapViewDimensions: ['mapViewDimensions'],
-    rowData: ['rowData'],
-    charWidth: ['mapViewCharWidth'],
+    mapViewRowData: ['mapViewRowData'],
+    mapViewCharWidth: ['mapViewCharWidth'],
     charHeight: ['charHeight'],
     annotationHeight: ['annotationHeight'],
     selectionLayer: ['selectionLayer'],
@@ -27,8 +27,8 @@ var RowItem = require('./RowItem.js');
 })
 @propTypes({
     mapViewDimensions: PropTypes.object.isRequired,
-    rowData: PropTypes.array.isRequired,
-    charWidth: PropTypes.number.isRequired,
+    mapViewRowData: PropTypes.array.isRequired,
+    mapViewCharWidth: PropTypes.number.isRequired,
     selectionLayer: PropTypes.object.isRequired,
     cutsiteLabelSelectionLayer: PropTypes.object.isRequired,
     annotationHeight: PropTypes.number.isRequired,
@@ -78,8 +78,8 @@ class MapView extends React.Component {
         if (rowNotFound) {
             console.warn('was not able to find the correct row');
             //return the last bp index in the rendered rows
-            var lastOfRenderedRowsNumber = this.refs.InfiniteScroller.state.visibleRows[this.refs.InfiniteScroller.state.visibleRows.length - 1];
-            var lastOfRenderedRows = this.props.rowData[lastOfRenderedRowsNumber];
+            // var lastOfRenderedRowsNumber = this.refs.InfiniteScroller.state.visibleRows[this.refs.InfiniteScroller.state.visibleRows.length - 1];
+            var lastOfRenderedRows = this.props.rowData[0];
             callback(lastOfRenderedRows.end, event);
         }
     }
@@ -89,8 +89,8 @@ class MapView extends React.Component {
         // 
         var {
             mapViewDimensions, 
-            rowData, 
-            charWidth, 
+            mapViewRowData, 
+            mapViewCharWidth, 
             selectionLayer, 
             charHeight,
             cutsiteLabelSelectionLayer,
@@ -115,7 +115,7 @@ class MapView extends React.Component {
         } = this.props;
         var self = this;
         // function renderRows(rowNumber) {
-        //     if (rowData[rowNumber]) {
+        //     if (mapViewRowData[rowNumber]) {
         //         return ();
         //     } else {
         //         return null
@@ -131,7 +131,7 @@ class MapView extends React.Component {
             // paddingRight: "20px"
             //   padding: 10
         };
-        // console.log('rowData: ' + JSON.stringify(rowData,null,4));
+        // console.log('mapViewRowData: ' + JSON.stringify(mapViewRowData,null,4));
         return (
             <Draggable
                 bounds={{top: 0, left: 0, right: 0, bottom: 0}}
@@ -152,7 +152,7 @@ class MapView extends React.Component {
                     }
                     >
                     <RowItem
-                        charWidth={charWidth}
+                        charWidth={mapViewCharWidth}
                         charHeight={charHeight}
                         annotationHeight={annotationHeight}
                         tickSpacing={tickSpacing}
@@ -170,7 +170,7 @@ class MapView extends React.Component {
                         caretPosition={caretPosition}
                         sequenceLength={sequenceLength}
                         bpsPerRow={sequenceLength}
-                        row={rowData[0]} />
+                        row={mapViewRowData[0]} />
                 </div>
             </Draggable>
         );
