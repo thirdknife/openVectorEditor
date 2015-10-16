@@ -61,7 +61,7 @@ class MapView extends React.Component {
             rowNotFound = false;
             if (event.clientX - boundingRowRect.left < 0) {
                 console.warn('this should never be 0...');
-                callback(0); //return the first bp in the row
+                callback(0, event); //return the first bp in the row
             } else {
                 var clickXPositionRelativeToRowContainer = event.clientX - boundingRowRect.left;
                 var numberOfBPsInFromRowStart = Math.floor((clickXPositionRelativeToRowContainer + this.props.charWidth / 2) / this.props.charWidth);
@@ -70,7 +70,7 @@ class MapView extends React.Component {
                     nearestBP = this.props.sequenceLength + 1;
                 }
                 // console.log('nearestBP', nearestBP);
-                callback(nearestBP);
+                callback(nearestBP, event);
             }
             // break; //break the for loop early because we found the row the click event landed in
         }
@@ -80,7 +80,7 @@ class MapView extends React.Component {
             //return the last bp index in the rendered rows
             var lastOfRenderedRowsNumber = this.refs.InfiniteScroller.state.visibleRows[this.refs.InfiniteScroller.state.visibleRows.length - 1];
             var lastOfRenderedRows = this.props.rowData[lastOfRenderedRowsNumber];
-            callback(lastOfRenderedRows.end);
+            callback(lastOfRenderedRows.end, event);
         }
     }
 
