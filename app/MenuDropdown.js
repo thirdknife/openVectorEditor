@@ -28,8 +28,7 @@ class MenuDropdown extends React.Component {
             },
 
             menu: {
-                display: 'inline-block',
-                position: 'relative'
+                display: 'inline-block'
             },
 
             dropdown: {
@@ -38,7 +37,8 @@ class MenuDropdown extends React.Component {
                 padding: '0',
                 margin: '0',
                 backgroundColor: '#ffffff',
-                position: 'absolute'
+                position: 'absolute',
+                zIndex: '9999'
             },
 
             menuItem: {
