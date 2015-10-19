@@ -1,5 +1,7 @@
 import React from 'react';
 
+import styles from './menu-bar.css';
+
 import { Decorator as Cerebral } from 'cerebral-react';
 
 var MenuDropdown = require('./MenuDropdown');
@@ -11,13 +13,6 @@ class MenuBar extends React.Component {
         var {
             signals
         } = this.props;
-
-        var styles = {
-            bar: {
-                fontFamily: 'sans',
-                fontSize: '11px'
-            }
-        };
 
         var editMenuItems = [
             {

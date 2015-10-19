@@ -1,5 +1,7 @@
 import React from 'react';
 
+import styles from './menu-dropdown.css';
+
 class MenuDropdown extends React.Component {
 
     constructor(props) {
@@ -18,33 +20,6 @@ class MenuDropdown extends React.Component {
             buttonText,
             options
         } = this.props;
-
-        var styles = {
-            button: {
-                font: 'inherit',
-                color: 'inherit',
-                backgroundColor: '#ffffff',
-                border: 'none'
-            },
-
-            menu: {
-                display: 'inline-block'
-            },
-
-            dropdown: {
-                listStyleType: 'none',
-                listStylePosition: 'inside',
-                padding: '0',
-                margin: '0',
-                backgroundColor: '#ffffff',
-                position: 'absolute',
-                zIndex: '9999'
-            },
-
-            menuItem: {
-                padding: '10px'
-            }
-        };
 
         var dropdown = null;
 
