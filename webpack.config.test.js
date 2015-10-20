@@ -7,7 +7,7 @@ module.exports = {
             loader: "json-loader"
         }, {
             test: /\.css$/,
-            loader: "style!css?modules"
+            loader: "style!css?modules&localIdentName=[name]--[local]---[hash:base64:5]"
         }, {
             test: /\.js$/,
             exclude: /node_modules/,
