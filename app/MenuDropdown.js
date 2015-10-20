@@ -25,17 +25,17 @@ class MenuDropdown extends React.Component {
 
         if (this.state.isOpen) {
             dropdown = (
-                <ul style={styles.dropdown}>
+                <ul className={styles.dropdown}>
                     {options.map((el, i) =>
-                    <li key={i} style={styles.menuItem} onClick={el.callback}>{el.label}</li>
+                    <li key={i} className={styles.menuItem} onClick={el.callback}>{el.label}</li>
                     )}
                 </ul>
             );
         }
 
         return (
-            <div style={styles.menu}>
-                <button style={styles.button} onClick={this.handleClick.bind(this)}>{buttonText}</button>
+            <div className={styles.menu}>
+                <button className={styles.button} onClick={this.handleClick.bind(this)}>{buttonText}</button>
 
                 {dropdown}
             </div>

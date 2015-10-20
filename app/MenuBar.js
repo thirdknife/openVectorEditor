@@ -40,7 +40,7 @@ class MenuBar extends React.Component {
         ];
 
         return (
-            <div style={styles.bar}>
+            <div className={styles.bar}>
                 <MenuDropdown
                     buttonText="Edit"
                     options={editMenuItems}
