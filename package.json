@@ -44,6 +44,7 @@
     "random-color": "0.0.1",
     "react": "^0.14.0",
     "react-addons-pure-render-mixin": "^0.14.0",
+    "react-click-outside": "^1.0.1",
     "react-clipboard": "^1.1.1",
     "react-dom": "^0.14.0",
     "react-draggable": "^0.8.2",
