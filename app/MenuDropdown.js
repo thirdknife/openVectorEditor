@@ -1,4 +1,5 @@
 import React from 'react';
+import enhanceWithClickOutside from 'react-click-outside';
 
 import styles from './menu-dropdown.css';
 
@@ -9,6 +10,10 @@ class MenuDropdown extends React.Component {
         this.state = {
             isOpen: false
         };
+    }
+
+    handleClickOutside() {
+        this.setState({ isOpen: false });
     }
 
     handleClick() {
@@ -44,4 +49,4 @@ class MenuDropdown extends React.Component {
 
 }
 
-module.exports = MenuDropdown;
+module.exports = enhanceWithClickOutside(MenuDropdown);
