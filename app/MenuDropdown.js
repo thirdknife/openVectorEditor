@@ -49,4 +49,4 @@ class MenuDropdown extends React.Component {
 
 }
 
-module.exports = enhanceWithClickOutside(MenuDropdown);
+export default enhanceWithClickOutside(MenuDropdown);

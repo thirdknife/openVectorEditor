@@ -1,13 +1,12 @@
 import React from 'react';
+import { Decorator as Cerebral } from 'cerebral-react';
 
 import styles from './menu-bar.css';
 
-import { Decorator as Cerebral } from 'cerebral-react';
-
-var MenuDropdown = require('./MenuDropdown');
+import MenuDropdown from './MenuDropdown.js';
 
 @Cerebral()
-class MenuBar extends React.Component {
+export default class MenuBar extends React.Component {
 
     render() {
         var {
@@ -56,4 +55,3 @@ class MenuBar extends React.Component {
 
 }
 
-module.exports = MenuBar;

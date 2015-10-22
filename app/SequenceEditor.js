@@ -4,7 +4,7 @@ var Combokeys = require("combokeys");
 var combokeys;
 var bindGlobalPlugin = require('combokeys/plugins/global-bind');
 
-var MenuBar = require('./MenuBar');
+import MenuBar from './MenuBar.js';
 
 var RowView = require('./RowView');
 var MapView = require('./MapView');
