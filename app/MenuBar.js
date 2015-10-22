@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { propTypes } from './react-props-decorators.js';
 import { Decorator as Cerebral } from 'cerebral-react';
 
 import styles from './menu-bar.css';
 
 import MenuDropdown from './MenuDropdown.js';
 
-@Cerebral()
+@Cerebral({
+    showFeatures: ['showFeatures']
+})
+@propTypes({
+    showFeatures: PropTypes.bool.isRequired
+})
 export default class MenuBar extends React.Component {
 
     render() {
         var {
-            signals
+            signals,
+            showFeatures
         } = this.props;
 
         var editMenuItems = [
@@ -34,7 +41,8 @@ export default class MenuBar extends React.Component {
                 label: 'Features',
                 callback: function () {
                     signals.toggleAnnotationDisplay('features');
-                }
+                },
+                toggle: showFeatures
             }
         ];
 
