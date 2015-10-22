@@ -11,6 +11,18 @@ var BottomStatusBar = require('./BottomStatusBar');
 var Clipboard = require('./Clipboard');
 import {Decorator as Cerebral} from 'cerebral-react';
 
+const RaisedButton = require('material-ui/lib/raised-button');
+import {Menu,
+MenuItem,
+MenuDivider,
+Toolbar,
+ToolbarGroup,
+ToolbarTitle,
+ToolbarSeparator,
+FontIcon,
+DropDownIcon,
+DropDownMenu} from 'material-ui'
+
 @Cerebral({
     sequenceLength: ['sequenceLength'],
     bpsPerRow: ['bpsPerRow'],
@@ -249,6 +261,20 @@ class SequenceEditor extends React.Component {
           </button>)
     });
 
+    let filterOptions = [
+      { payload: '1', text: 'All Broadcasts' },
+      { payload: '2', text: 'All Voice' },
+      { payload: '3', text: 'All Text' },
+      { payload: '4', text: 'Complete Voice' },
+      { payload: '5', text: 'Complete Text' },
+      { payload: '6', text: 'Active Voice' },
+      { payload: '7', text: 'Active Text' },
+    ];
+    let iconMenuItems = [
+      { payload: '1', text: 'Download' },
+      { payload: '2', text: 'More Info' }
+    ];
+
     return (
       <div ref="sequenceEditor"
         style={{float:"right"}}>
@@ -262,6 +288,21 @@ class SequenceEditor extends React.Component {
         <br/>
         bpsPerRow:  {bpsPerRow}
         <br/>
+
+        <Toolbar>
+          <ToolbarGroup key={0} float="left">
+            <DropDownMenu menuItems={filterOptions} />
+          </ToolbarGroup>
+          <ToolbarGroup key={1} float="right">
+            <ToolbarTitle text="Options" />
+            <FontIcon className="mui-icon-sort" />
+            <DropDownIcon iconClassName="icon-navigation-expand-more" menuItems={iconMenuItems} />
+            <ToolbarSeparator/>
+            <RaisedButton label="Create Broadcast" primary={true} />
+          </ToolbarGroup>
+        </Toolbar>
+
+        <RaisedButton label="Default" />
 
         <button onClick={function () {
           setViewportDimensions({height: 800, width: 1500})
