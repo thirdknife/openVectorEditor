@@ -13,15 +13,19 @@ import {Decorator as Cerebral} from 'cerebral-react';
 
 const RaisedButton = require('material-ui/lib/raised-button');
 import {Menu,
-MenuItem,
-MenuDivider,
 Toolbar,
 ToolbarGroup,
 ToolbarTitle,
 ToolbarSeparator,
 FontIcon,
+IconMenu,
+IconButton,
 DropDownIcon,
 DropDownMenu} from 'material-ui'
+
+
+let MenuItem = require('material-ui/lib/menus/menu-item');
+let MenuDivider = require('material-ui/lib/menus/menu-divider');
 
 @Cerebral({
     sequenceLength: ['sequenceLength'],
@@ -275,6 +279,10 @@ class SequenceEditor extends React.Component {
       { payload: '2', text: 'More Info' }
     ];
 
+    var iconButtonElement = (
+        <IconButton iconClassName="muidocs-icon-custom-github" tooltip="GitHub"/>
+        )
+
     return (
       <div ref="sequenceEditor"
         style={{float:"right"}}>
@@ -288,10 +296,19 @@ class SequenceEditor extends React.Component {
         <br/>
         bpsPerRow:  {bpsPerRow}
         <br/>
+        
 
         <Toolbar>
           <ToolbarGroup key={0} float="left">
             <DropDownMenu menuItems={filterOptions} />
+            <IconMenu iconButtonElement={iconButtonElement}>
+              <MenuItem primaryText="Refresh" />
+              <MenuItem primaryText="Send feedback" />
+              <MenuItem primaryText="Settings" />
+              <MenuItem primaryText="Help" />
+              <MenuItem primaryText="Sign out" />
+            </IconMenu>
+            
           </ToolbarGroup>
           <ToolbarGroup key={1} float="right">
             <ToolbarTitle text="Options" />
