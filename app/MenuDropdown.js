@@ -3,6 +3,8 @@ import enhanceWithClickOutside from 'react-click-outside';
 
 import styles from './menu-dropdown.css';
 
+import MenuItem from './MenuItem.js';
+
 class MenuDropdown extends React.Component {
 
     constructor(props) {
@@ -32,7 +34,11 @@ class MenuDropdown extends React.Component {
             dropdown = (
                 <ul className={styles.dropdown}>
                     {options.map((el, i) =>
-                    <li key={i} className={styles.menuItem} onClick={el.callback}>{el.label}</li>
+                    <MenuItem
+                        index={i}
+                        label={el.label}
+                        callback={el.callback}
+                    />
                     )}
                 </ul>
             );
