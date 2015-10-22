@@ -7,10 +7,13 @@ export default class MenuItem extends React.Component {
         var {
             index,
             label,
-            callback
+            callback,
+            toggle
         } = this.props;
 
-        return <li key={index} className={styles.menuItem} onClick={callback}>{label}</li>;
+        var className = (toggle !== undefined && toggle) ? styles.menuItemOn : styles.menuItem;
+
+        return <li key={index} className={className} onClick={callback}>{label}</li>;
     }
 }
 

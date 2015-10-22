@@ -38,6 +38,7 @@ class MenuDropdown extends React.Component {
                         index={i}
                         label={el.label}
                         callback={el.callback}
+                        toggle={el.toggle}
                     />
                     )}
                 </ul>

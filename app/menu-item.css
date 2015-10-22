@@ -2,3 +2,12 @@
     padding: 10px;
 }
 
+.menuItemOn {
+    composes: menuItem;
+}
+
+.menuItemOn::before {
+    content: '✓';
+    padding-right: 5px;
+}
+
