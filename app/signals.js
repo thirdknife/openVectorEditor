@@ -1,4 +1,5 @@
 //tnr: little webpack trick to require all the action files and add them to the 'a' object
+var each = require('lodash/collection/each');
 var reqContext = require.context('./actions/', true, /^((?!test).)*$/);
 var a = {};
 reqContext.keys().forEach(function(key) {
@@ -72,4 +73,25 @@ export default function registerSignals(controller) {
     controller.signal('jumpToRow', [a.jumpToRow]);
 
 
+    var editAllowSignals = {
+        'backspacePressed': [
+            a.getData('selectionLayer', 'sequenceLength', 'sequenceData'),
+            a.checkLayerIsSelected, {
+                selected: [a.deleteSequence],
+                notSelected: [a.getData('caretPosition'), a.prepDeleteOneBack, a.deleteSequence]
+            }
+        ]
+    }
+}
+
+function addEditAllowedSignal (signalsObj) {
+    var newSignalsObj = {};
+    each(signalsObj, function (actionArray, signalName) {
+        newSignalsObj[signalName] = [
+            a.checkIfEditAllowed, {
+                success: actionArray,
+                error: a.displayError('Unable to complete action while in Read Only mode')
+            }
+        ]
+    })
 }
