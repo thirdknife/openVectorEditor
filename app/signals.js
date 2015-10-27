@@ -72,26 +72,41 @@ export default function registerSignals(controller) {
     controller.signal('addAnnotations', [a.addAnnotations]);
     controller.signal('jumpToRow', [a.jumpToRow]);
 
-
-    var editAllowSignals = {
+    var editModeOnlySignals = {
         'backspacePressed': [
             a.getData('selectionLayer', 'sequenceLength', 'sequenceData'),
             a.checkLayerIsSelected, {
                 selected: [a.deleteSequence],
                 notSelected: [a.getData('caretPosition'), a.prepDeleteOneBack, a.deleteSequence]
             }
+        ],
+        'sequenceDataInserted': [
+            a.getData('selectionLayer', 'sequenceLength', 'sequenceData'),
+            a.checkLayerIsSelected, {
+                selected: [a.deleteSequence],
+                notSelected: [a.getData('caretPosition')]
+            },
+            a.insertSequenceData,
+            a.setData('caretPosition', 'sequenceData')
         ]
     }
 }
 
-function addEditAllowedSignal (signalsObj) {
+function addEditModeOnlySignal(signalsObj) {
     var newSignalsObj = {};
-    each(signalsObj, function (actionArray, signalName) {
+    each(signalsObj, function(actionArray, signalName) {
         newSignalsObj[signalName] = [
             a.checkIfEditAllowed, {
                 success: actionArray,
                 error: a.displayError('Unable to complete action while in Read Only mode')
             }
         ]
+    })
+    return newSignalsObj;
+}
+
+function attachSignalObjectsToController (signalsObj, controller) {
+    each(signalsObj, function(actionArray, signalName) {
+        controller.signal(signalName, actionArray);
     })
 }
