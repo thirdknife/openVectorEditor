@@ -13,6 +13,7 @@ var getCutsitesFromSequence = require('ve-sequence-utils/getCutsitesFromSequence
 var enzymeList = require('ve-sequence-utils/enzymeList.json'); 
 
 export default {
+    messagesToUser: [],
     rowToJumpTo: null,
     topSpacerHeight: 0,
     bottomSpacerHeight: 0,

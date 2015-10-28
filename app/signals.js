@@ -14,28 +14,28 @@ export default function registerSignals(controller) {
         error: [] //tnr: we should probably have some sort of generic info/warning message that we can display when things go wrong
     }]);
     controller.signal('selectAll', [a.selectAll, a.setSelectionLayer]);
-    controller.signal('sequenceDataInserted', [
-        a.getData('selectionLayer', 'sequenceLength', 'sequenceData'),
-        a.checkLayerIsSelected, {
-            selected: [a.deleteSequence],
-            notSelected: [a.getData('caretPosition')]
-        },
-        a.insertSequenceData,
-        a.setData('caretPosition', 'sequenceData')
-    ]);
+    // controller.signal('sequenceDataInserted', [
+    //     a.getData('selectionLayer', 'sequenceLength', 'sequenceData'),
+    //     a.checkLayerIsSelected, {
+    //         selected: [a.deleteSequence],
+    //         notSelected: [a.getData('caretPosition')]
+    //     },
+    //     a.insertSequenceData,
+    //     a.setData('caretPosition', 'sequenceData')
+    // ]);
     controller.signal('setCutsiteLabelSelection', [a.setCutsiteLabelSelection]);
     controller.signal('setCaretPosition', [a.setCaretPosition]);
     // SL: working but may need to be more robust
     controller.signal('toggleAnnotationDisplay', [a.toggleAnnotationDisplay]);
 
     //tnr: MOSTLY WORKING: 
-    controller.signal('backspacePressed', [
-        a.getData('selectionLayer', 'sequenceLength', 'sequenceData'),
-        a.checkLayerIsSelected, {
-            selected: [a.deleteSequence],
-            notSelected: [a.getData('caretPosition'), a.prepDeleteOneBack, a.deleteSequence]
-        }
-    ]);
+    // controller.signal('backspacePressed', [
+    //     a.getData('selectionLayer', 'sequenceLength', 'sequenceData'),
+    //     a.checkLayerIsSelected, {
+    //         selected: [a.deleteSequence],
+    //         notSelected: [a.getData('caretPosition'), a.prepDeleteOneBack, a.deleteSequence]
+    //     }
+    // ]);
     controller.signal('editorClicked', [
         a.getData('selectionLayer', 'sequenceLength', 'bpsPerRow', 'caretPosition'),
         a.checkShiftHeld, {
@@ -65,7 +65,7 @@ export default function registerSignals(controller) {
 
     //tnr: NOT YET WORKING:
     //higher priority
-    controller.signal('pasteSequenceString', [a.pasteSequenceString]);
+    // controller.signal('pasteSequenceString', [a.pasteSequenceString]);
     controller.signal('setSelectionLayer', [a.setSelectionLayer]);
 
     //lower priority
@@ -88,17 +88,22 @@ export default function registerSignals(controller) {
             },
             a.insertSequenceData,
             a.setData('caretPosition', 'sequenceData')
-        ]
+        ],
+        //tnr: not yet working:
+        'pasteSequenceString': [a.pasteSequenceString],
+        'addAnnotations': [a.addAnnotations]
     }
+
+    attachSignalObjectsToController(addEditModeOnlyFunctionalityToSignal(editModeOnlySignals), controller);
 }
 
-function addEditModeOnlySignal(signalsObj) {
+function addEditModeOnlyFunctionalityToSignal(signalsObj) {
     var newSignalsObj = {};
     each(signalsObj, function(actionArray, signalName) {
         newSignalsObj[signalName] = [
             a.checkIfEditAllowed, {
                 success: actionArray,
-                error: a.displayError('Unable to complete action while in Read Only mode')
+                error: a.displayMessageToUser({message: 'Unable to complete action while in Read Only mode', level: 'error'})
             }
         ]
     })
