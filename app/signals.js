@@ -48,22 +48,6 @@ export default function registerSignals(controller, options) {
             shiftNotHeld: [a.clearSelectionLayer, a.updateOutput('updatedCaretPos', 'caretPosition'), a.setCaretPosition],
         }
     ]);
-    var selectAnnotation = [
-        a.getData('selectionLayer', 'sequenceLength', 'bpsPerRow', 'caretPosition'),
-        a.checkShiftHeld, {
-            shiftHeld: [a.checkLayerIsSelected, {
-                selected: [a.updateSelectionShiftClick, a.setSelectionLayer],
-                notSelected: [a.createSelectionShiftClick, {
-                    updateSelection: [a.setSelectionLayer],
-                    doNothing: []
-                }]
-            }],
-            shiftNotHeld: [a.updateOutput('annotation', 'selectionLayer'), a.setSelectionLayer],
-        }
-    ]
-
-    controller.signal('featureClicked', selectAnnotation);
-    controller.signal('orfClicked', selectAnnotation);
 
     controller.signal('caretMoved', [
         a.getData('selectionLayer', 'caretPosition', 'sequenceLength', 'bpsPerRow', {
@@ -88,5 +72,4 @@ export default function registerSignals(controller, options) {
     controller.signal('jumpToRow', [a.jumpToRow]);
 
 
-    controller.signal('showSideMenu', [ (obj, tree, output) => { tree.set('showSideMenu', !tree.get('showSideMenu')); } ])
 }
