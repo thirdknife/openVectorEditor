@@ -84,9 +84,12 @@ class CircularView extends React.Component {
         var currentRadius = baseRadius;
         var totalAnnotationHeight = annotationHeight + spaceBetweenAnnotations;
         var annotationsSvgs = [];
+        
+        
 
         if (showFeatures) {
             var maxYOffset = 0;
+            console.log(circularViewData);
             circularViewData.features.forEach(function(annotation, index) {
                 var {startAngle, endAngle, totalAngle} = getRangeAngles(annotation, sequenceLength);
                 if (annotation.yOffset > maxYOffset) {
@@ -112,6 +115,24 @@ class CircularView extends React.Component {
                     </PositionAnnotationOnCircle>
                 )
                 currentRadius += maxYOffset + 1 * totalAnnotationHeight
+            })
+        }
+
+        if(showCutsites){
+            circularViewData.cutsites.forEach(function(annotation, index) {
+                var {startAngle, endAngle, totalAngle} = getRangeAngles(annotation, sequenceLength);
+                annotationsSvgs.push(
+                    <PositionAnnotationOnCircle
+                      key={ index }
+                      sAngle={ startAngle }
+                      eAngle={ endAngle }
+                      height={ currentRadius }>
+                      <rect
+                        width={ 1 }
+                        height={ 10 }>
+                      </rect>
+                    </PositionAnnotationOnCircle>
+                )
             })
         }
 
