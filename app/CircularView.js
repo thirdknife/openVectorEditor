@@ -1,3 +1,4 @@
+var posInt = require('validate.io-nonnegative-integer');
 var Sector = require('paths-js/sector');
 var getRangeAngles = require('ve-range-utils/getRangeAngles');
 let Cutsite = require('./Cutsite');
@@ -120,10 +121,16 @@ class CircularView extends React.Component {
 
         if(showCutsites){
             circularViewData.cutsites.forEach(function(annotation, index) {
-                var {startAngle, endAngle, totalAngle} = getRangeAngles(annotation, sequenceLength);
+                var position = 0;
+                if (posInt(annotation.downstreamTopSnip)) {
+                    position = annotation.downstreamTopSnip
+                } else if (posInt(annotation.upstreamTopSnip)) {
+                    position = annotation.downstreamTopSnip
+                }
+                var {startAngle, endAngle, totalAngle} = getRangeAngles({start: position, end: position}, sequenceLength);
                 annotationsSvgs.push(
                     <PositionAnnotationOnCircle
-                      key={ index }
+                      key={ 'circularViewCutsite' + index }
                       sAngle={ startAngle }
                       eAngle={ endAngle }
                       height={ currentRadius }>
