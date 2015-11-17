@@ -84,7 +84,6 @@ class CircularView extends React.Component {
 
         if (showFeatures) {
             var maxYOffset = 0;
-            console.log(circularViewData);
             circularViewData.features.forEach(function(annotation, index) {
                 var {startAngle, endAngle, totalAngle} = getRangeAngles(annotation, sequenceLength);
                 if (annotation.yOffset > maxYOffset) {
@@ -113,34 +112,10 @@ class CircularView extends React.Component {
             })
         }
 
-        if(showCutsites){
-            circularViewData.cutsites.forEach(function(annotation, index) {
-                var position = 0;
-                if (posInt(annotation.downstreamTopSnip)) {
-                    position = annotation.downstreamTopSnip
-                } else if (posInt(annotation.upstreamTopSnip)) {
-                    position = annotation.downstreamTopSnip
-                }
-                var {startAngle, endAngle, totalAngle} = getRangeAngles({start: position, end: position}, sequenceLength);
-                annotationsSvgs.push(
-                    <PositionAnnotationOnCircle
-                      key={ 'circularViewCutsite' + index }
-                      sAngle={ startAngle }
-                      eAngle={ endAngle }
-                      height={ currentRadius }>
-                      <rect
-                        width={ 1 }
-                        height={ 10 }>
-                      </rect>
-                    </PositionAnnotationOnCircle>
-                )
-            })
-        }
-
         if (showAxis) {
             var tickMarkHeight = 10;
             var tickMarkWidth = 1;
-            var textOffset = 20
+            var textOffset = 20;
 
             var axisLineThickness = 4;
             currentRadius += textOffset + tickMarkHeight + axisLineThickness
@@ -155,7 +130,6 @@ class CircularView extends React.Component {
             });
 
             var tickMarksAndLabels = tickPositions.map(function(tickPosition, index) {
-                
                 var tickAngle = getAngleForPositionMidpoint(tickPosition, sequenceLength);
                 var flip = false;
                 if ((tickAngle > Math.PI * 0.5) && (tickAngle < Math.PI * 1.5)) {
@@ -227,6 +201,45 @@ class CircularView extends React.Component {
                     innerRadius={innerRadius}
                     outerRadius={currentRadius}
                 />)
+        }
+
+        if(showCutsites){
+
+            circularViewData.cutsites.forEach(function(annotation, index) {
+                var textOffset = 25
+                var position = 0;
+                var tickAngle = getAngleForPositionMidpoint(annotation.downstreamTopSnip, sequenceLength);
+                var flip = true;
+                
+                if (posInt(annotation.downstreamTopSnip)) {
+                    position = annotation.downstreamTopSnip
+                } else if (posInt(annotation.upstreamTopSnip)) {
+                    position = annotation.downstreamTopSnip
+                }
+                var {startAngle, endAngle, totalAngle} = getRangeAngles({start: position, end: position}, sequenceLength);
+                annotationsSvgs.push(
+                    <PositionAnnotationOnCircle
+                      key={ 'circularViewCutsite' + index }
+                      sAngle={ startAngle }
+                      eAngle={ endAngle }
+                      height={ currentRadius + 10 }>
+                      <text
+                        onClick={ function (e) {
+                                e.stopPropagation()
+                                signals.setCutsiteLabelSelection({annotation: annotation})
+                            }
+                        }
+                        transform={ (flip ? 'rotate(90)' : '') + ` translate(-20, 0)` }
+                        style={ {    textAnchor: "middle",    dominantBaseline: "central",    fontSize: '9'} }>
+                        { annotation.restrictionEnzyme.name }
+                      </text>
+                      <rect
+                        width={ 1 }
+                        height={ 10 }>
+                      </rect>
+                    </PositionAnnotationOnCircle>
+                )
+            })
         }
 
         if (caretPosition !== -1 && !selectionLayer.selected) {

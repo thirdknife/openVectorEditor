@@ -24,7 +24,7 @@ export default function(controller, options) {
         }],
         selectAll: [a.selectAll, a.setSelectionLayer],
         selectInverse: [a.selectInverse, a.setSelectionLayer],
-        setCutsiteLabelSelection: [a.setCutsiteLabelSelection],
+        setCutsiteLabelSelection: [a.setCutsiteLabelSelection, a.setCaretPosition],
         toggleAnnotationDisplay: [a.toggleAnnotationDisplay],
 
         editorClicked: [
