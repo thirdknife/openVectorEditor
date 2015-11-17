@@ -1,7 +1,7 @@
 var deriveData = require('baobab').monkey
 
-var prepareRowData = require('./prepareRowData');
-var prepareCircularViewData = require('./prepareCircularViewData');
+var prepareRowData = require('ve-sequence-utils/prepareRowData');
+var prepareCircularViewData = require('ve-sequence-utils/prepareCircularViewData');
 var findOrfsInPlasmid = require('ve-sequence-utils/findOrfsInPlasmid');
 
 var assign = require('lodash/object/assign');
@@ -12,41 +12,71 @@ var getCutsitesFromSequence = require('ve-sequence-utils/getCutsitesFromSequence
 var enzymeList = require('ve-sequence-utils/enzymeList.json'); 
 
 module.exports = {
-    rowToJumpTo: null,
-    topSpacerHeight: 0,
-    bottomSpacerHeight: 0,
-    averageRowHeight: 100,
-    charWidth: 15,
-    charHeight: 15,
-    displayLinear: true,
-    displayCircular: true,
-    displayRow: true,
-    annotationHeight: 15,
-    minimumOrfSize: 20,
-    tickSpacing: 10,
-    mapViewTickSpacing: 40,
-    spaceBetweenAnnotations: 3,
-    showOrfs: true,
+    //sl: begin obsessive alphabetization   :p
+    // simple vars
     allowPartialAnnotationsOnCopy: false,
-    showCutsites: true,
-    showParts: true,
-    showFeatures: true,
-    showTranslations: true,
+    annotationHeight: 15,
+    averageRowHeight: 100,
+    bottomSpacerHeight: 0,
+    caretPosition: 0,
+    charHeight: 15,
+    charWidth: 15,
+    clipboardData: null,
+    mapViewTickSpacing: 40,
+    minimumOrfSize: 20,
+    readOnly: false,
+    rowToJumpTo: null,
     showAxis: true,
-    showSequence: true,
+    showCircular: true,
+    showCutsites: true,
+    showFeatures: true,
+    showLinear: true,
+    showOrfs: true,
+    showParts: true,
     showReverseSequence: true,
-    rowViewDimensions: {
+    showRow: true,
+    showSequence: true,
+    showSidebar: true,
+    showTranslations: true,
+    spaceBetweenAnnotations: 3,
+    tickSpacing: 10,
+    topSpacerHeight: 0,
+    // complex vars
+    circularViewDimensions: {
         height: 500,
         width: 500
+    },
+    cutsiteLabelSelectionLayer: {
+        start: -1,
+        end: -1,
+        selected: false,
+        cursorAtEnd: true
+    },
+    editorDrag: {
+        inProgress: false,
+        initiatedByGrabbingCaret: false,
+        bpOfFixedCaretPosition: 0,
     },
     mapViewDimensions: {
         height: 500,
         width: 500
     },
-    circularViewDimensions: {
+    rowViewDimensions: {
         height: 500,
         width: 500
     },
+    selectionLayer: {
+        start: -1,
+        end: -1,
+        selected: false,
+        cursorAtEnd: true
+    },
+    sequenceData: {//tnr: sequence data gets passed in and overrides this object
+       sequence: '',
+       features: [],
+       translations: [],
+       parts: [],
+    }, 
     userEnzymeList: [
         'rsplkii',
         'bme216i',
@@ -57,30 +87,11 @@ module.exports = {
         height: 500,
         width: 500
     },
-    selectionLayer: {
-        start: -1,
-        end: -1,
-        selected: false,
-        cursorAtEnd: true
-    },
-    cutsiteLabelSelectionLayer: {
-        start: -1,
-        end: -1,
-        selected: false,
-        cursorAtEnd: true
-    },
-    caretPosition: 0,
     visibleRows: {
         start: 0,
         end: 0
     },
-    sequenceData: {//tnr: sequence data gets passed in and overrides this object
-       sequence: '',
-       features: [],
-       translations: [],
-       parts: [],
-    }, 
-    clipboardData: null,
+    // derived data - can't alphabetize because of dependencies  :(
     bpsPerRow: deriveData([
         ['rowViewDimensions',
             'width'
@@ -89,8 +100,7 @@ module.exports = {
         function(rowViewDimensionsWidth, charWidth) {
             return Math.floor(rowViewDimensionsWidth / charWidth);
         }
-    ]),
-    
+    ]),  
     userEnzymes: deriveData([
         ['userEnzymeList'],
         function(userEnzymeList) {
@@ -164,7 +174,6 @@ module.exports = {
             return selectedSequenceString.length * 10
         }
     ]),
-
     orfData: deriveData([
         ['sequenceData', 'sequence'],
         ['sequenceData', 'circular'], //decide on what to call this..
